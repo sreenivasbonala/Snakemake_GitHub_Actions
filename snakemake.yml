@@ -1,0 +1,35 @@
+rule all:
+    input:
+        "results/summary.txt"
+
+rule prepare:
+    output:
+        "results/data.txt"
+    shell:
+        """
+        mkdir -p results
+        echo "Gene Search Workflow" > {output}
+        """
+
+rule process:
+    input:
+        "results/data.txt"
+    output:
+        "results/processed.txt"
+    shell:
+        """
+        tr '[:lower:]' '[:upper:]' < {input} > {output}
+        """
+
+rule summary:
+    input:
+        "results/processed.txt"
+    output:
+        "results/summary.txt"
+    shell:
+        """
+        echo "Workflow completed successfully." > {output}
+        cat {input} >> {output}
+        """
+o
+
